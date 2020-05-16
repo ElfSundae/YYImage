@@ -42,14 +42,17 @@ LIBLIST=''
 if [[ -z "${SDK}" ]]; then
   echo "iOS SDK not available"
   exit 1
+elif [[ ${SDK%%.*} -gt 8 ]]; then
+  EXTRA_CFLAGS="-fembed-bitcode"
+elif [[ ${SDK} < 6.0 ]]; then
+  echo "You need iOS SDK version 6.0 or above"
+  exit 1
 else
   echo "iOS SDK Version ${SDK}"
 fi
 
-rm -rf ${BUILDDIR}
-rm -rf ${TARGETDIR}
-mkdir -p ${BUILDDIR}
-mkdir -p ${TARGETDIR}/Headers/
+rm -rf ${BUILDDIR} ${TARGETDIR}
+mkdir -p ${BUILDDIR} ${TARGETDIR}/Headers/
 
 if [[ ! -e ${SRCDIR}/configure ]]; then
   if ! (cd ${SRCDIR} && sh autogen.sh); then
@@ -92,20 +95,19 @@ for PLATFORM in ${PLATFORMS}; do
   SDKROOT="${PLATFORMSROOT}/"
   SDKROOT+="${PLATFORM}.platform/Developer/SDKs/${PLATFORM}${SDK}.sdk/"
   CFLAGS="-arch ${ARCH2:-${ARCH}} -pipe -isysroot ${SDKROOT} -O3 -DNDEBUG"
-  CFLAGS+=" -miphoneos-version-min=6.0 -fembed-bitcode"
+  CFLAGS+=" -miphoneos-version-min=6.0 ${EXTRA_CFLAGS}"
 
   set -x
   export PATH="${DEVROOT}/usr/bin:${OLDPATH}"
   ${SRCDIR}/configure --host=${ARCH}-apple-darwin --prefix=${ROOTDIR} \
     --build=$(${SRCDIR}/config.guess) \
     --disable-shared --enable-static \
+    --enable-libwebpdecoder --enable-swap-16bit-csp \
     --enable-libwebpmux \
-    --enable-libwebpdemux \
-    --enable-swap-16bit-csp \
     CFLAGS="${CFLAGS}"
   set +x
 
-  # run make only in the src/ directory to create libwebpdecoder.a
+  # run make only in the src/ directory to create libwebp.a/libwebpdecoder.a
   cd src/
   make V=0
   make install
@@ -113,12 +115,13 @@ for PLATFORM in ${PLATFORMS}; do
   MAKEPATH=$(pwd)
   cd ${ROOTDIR}/lib/
   ar x libwebp.a
+  ar x libwebpdecoder.a
   ar x libwebpmux.a
   ar x libwebpdemux.a
   ar q webp.a *.o
+  cd ${MAKEPATH}
 
   LIBLIST+=" ${ROOTDIR}/lib/webp.a"
-  cd ${MAKEPATH}
 
   make clean
   cd ..
@@ -126,5 +129,6 @@ for PLATFORM in ${PLATFORMS}; do
   export PATH=${OLDPATH}
 done
 
+echo "LIBLIST = ${LIBLIST}"
 cp -a ${SRCDIR}/src/webp/*.h ${TARGETDIR}/Headers/
 ${LIPO} -create ${LIBLIST} -output ${TARGETDIR}/WebP
