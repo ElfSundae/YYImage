@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.authors      = { 'ibireme' => 'ibireme@gmail.com' }
   s.social_media_url = 'http://blog.ibireme.com'
   s.homepage     = 'https://github.com/ibireme/YYImage'
-  s.platform     = :ios, '6.0'
+  s.platform     = :ios, '8.0'
   s.source       = { :git => 'https://github.com/ElfSundae/YYImage.git', :tag => s.version.to_s }
 
   s.default_subspec = 'Core'
@@ -18,6 +18,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'WebP' do |webp|
     webp.dependency 'YYImage/Core'
-    webp.vendored_frameworks = 'Vendor/WebP.framework'
+    webp.dependency 'libwebp', '~> 1.0'
   end
 end

@@ -18,6 +18,7 @@
 		D9A9953D1F05644B0062698B /* YYSpriteSheetImage.h in Headers */ = {isa = PBXBuildFile; fileRef = D9A995331F05644A0062698B /* YYSpriteSheetImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9A9953E1F05644B0062698B /* YYSpriteSheetImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A995341F05644A0062698B /* YYSpriteSheetImage.m */; };
 		D9A9954F1F0564D40062698B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D9A995401F05649B0062698B /* libz.tbd */; };
+		E7CB11962470677B005FF85B /* libwebp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7CB1194247066DC005FF85B /* libwebp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		D9A995331F05644A0062698B /* YYSpriteSheetImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSpriteSheetImage.h; sourceTree = "<group>"; };
 		D9A995341F05644A0062698B /* YYSpriteSheetImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSpriteSheetImage.m; sourceTree = "<group>"; };
 		D9A995401F05649B0062698B /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		E7CB1194247066DC005FF85B /* libwebp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libwebp.framework; path = ../Carthage/Build/iOS/libwebp.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9A9954F1F0564D40062698B /* libz.tbd in Frameworks */,
+				E7CB11962470677B005FF85B /* libwebp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +89,7 @@
 		D9A9953F1F05649B0062698B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E7CB1194247066DC005FF85B /* libwebp.framework */,
 				D9A995401F05649B0062698B /* libz.tbd */,
 				D9A995231F0564180062698B /* Info.plist */,
 			);
@@ -303,12 +307,14 @@
 		D9A995281F0564180062698B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Carthage/Build/iOS\"";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -322,12 +328,14 @@
 		D9A995291F0564180062698B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Carthage/Build/iOS\"";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

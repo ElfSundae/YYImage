@@ -10,7 +10,6 @@
 #import "YYImage.h"
 #import "UIView+YYAdd.h"
 #import <ImageIO/ImageIO.h>
-#import <WebP/demux.h>
 
 @interface YYImageExample()
 @property (nonatomic, strong) NSMutableArray *titles;
