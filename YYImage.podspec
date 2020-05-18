@@ -19,8 +19,5 @@ Pod::Spec.new do |s|
   s.subspec 'WebP' do |webp|
     webp.dependency 'YYImage/Core'
     webp.dependency 'libwebp', '~> 1.0'
-    webp.xcconfig = {
-      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) YYIMAGE_WEBP_ENABLED=1',
-    }
   end
 end
