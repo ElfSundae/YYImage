@@ -1,0 +1,34 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: carthage bootstrap
+
+      - name: Build Demo Project
+        run: |
+          xcodebuild clean build \
+            -project Demo/YYImageDemo.xcodeproj \
+            -scheme YYImageDemo \
+            -configuration Release CODE_SIGN_IDENTITY=- \
+            -sdk iphonesimulator | xcpretty -c
+
+      - name: Build Framework Project
+        run: |
+          xcodebuild clean build \
+            -project Framework/YYImage.xcodeproj \
+            -scheme YYImage \
+            -configuration Release CODE_SIGN_IDENTITY=- \
+            -sdk iphonesimulator | xcpretty -c
+
+      - name: Lint Pod
+        run: pod lib lint
+
+      - name: Lint Carthage
+        run: carthage build --no-skip-current
